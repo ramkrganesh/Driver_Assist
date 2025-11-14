@@ -1,5 +1,5 @@
 #include "rra_StdTypes.h"
-#include "Gesture_Sense.h"
+#include "Proximity_Sense.h"
 
 void setup(void) {
 
