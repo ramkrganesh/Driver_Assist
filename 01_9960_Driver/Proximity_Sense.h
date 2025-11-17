@@ -2,6 +2,12 @@
 #define _PROXIMITY_SENSE_H_
 
 #include "rra_StdTypes.h"
+#include "Proximity_Cfg.h"
+
+/**
+ * Macros:
+ */
+#define CFG_9960_I2C_ADDR   (0x39u)
 
 typedef enum {
     NOTHING = 0u,
@@ -11,8 +17,10 @@ typedef enum {
 
 class ProximityEngine {
 private:
-    Proximity_t detection {NOTHING};
+    Proximity_t detection;
+
 public:
+    ProximityEngine();
     void Init_ProximityEngine(void);
 };
 #endif
