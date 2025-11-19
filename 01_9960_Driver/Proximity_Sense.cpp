@@ -1,3 +1,4 @@
+#include "Proj_Config.h"
 #include "Proximity_Sense.h"
 #include "Reg_9960.h"
 #include <Wire.h>
@@ -6,8 +7,6 @@ ProximityEngine::ProximityEngine()
 : detection {NOTHING} {
 
 }
-
-
 
 void ProximityEngine::Init_ProximityEngine(void){
     Wire.begin();

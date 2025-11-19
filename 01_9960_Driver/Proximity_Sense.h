@@ -7,7 +7,7 @@
 /**
  * Macros:
  */
-#define CFG_9960_I2C_ADDR   (0x39u)
+
 
 typedef enum {
     NOTHING = 0u,

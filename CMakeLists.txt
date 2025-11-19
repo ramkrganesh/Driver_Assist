@@ -11,6 +11,7 @@ add_custom_target(Build_Driver_Assist ALL
     --fqbn ${ARDUINO_FQBN}
     --library "00_CommonLib"
     --library "01_9960_Driver"
+    --library "01_custom_wire"
     ${CMAKE_SOURCE_DIR}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Building Driver Assist Project..."
