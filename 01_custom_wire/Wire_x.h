@@ -1,7 +1,9 @@
 #ifndef _WIRE_X_H_
 #define _WIRE_X_H_
-#include "Proj_Config.h"
-#include "rra_StdTypes.h"
+#include "Std_Types.h"
+#include "Global_Cfg.h"
+
+#define CFG_I2C_BUFFER_SIZE (8u)    // Todo : remove it from here
 
 typedef struct{
 uint8 addr;

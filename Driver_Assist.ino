@@ -1,8 +1,6 @@
-#include "rra_StdTypes.h"
-#include <Wire.h>
+#include "Driver_Assist.h"
 #include "Proximity_Sense.h"
 #include <Arduino.h>
-#include "Wire_x.h"
 
 /**
  * Global Variables
@@ -11,7 +9,9 @@
 static uint8 cntr {};
 
 void setup(void) {
-    pinMode(13, INPUT);
+    pinMode(CFG_NANO_HWPIN_9960INT, INPUT);
+    
+    
     delay(6);   // APDS9960 requires atleast 5.7ms to enter SLEEP state after POR.
     //Prox_Sensor.Init_ProximityEngine();
     Serial.begin(9600);

@@ -1,26 +1,31 @@
 #ifndef _PROXIMITY_SENSE_H_
 #define _PROXIMITY_SENSE_H_
 
-#include "rra_StdTypes.h"
-#include "Proximity_Cfg.h"
+#include "Std_Types.h"
+#include "Global_Cfg.h"
+#include "Reg_9960.h"
+
+//- --------------------------------------------------------------------------------------------------------------------
+/**
+ * Typedefs
+ */
+typedef enum {
+    DIRECTION_DEFAULT = 0u,
+    DIRECTION_LEFT,
+    DIRECTION_RIGHT,
+}Indicator_Position_t;
 
 /**
- * Macros:
+ * @name : ProximityEngine
+ * @brief: Handles the "proximity engine" in APDS-9960 module.
  */
-
-
-typedef enum {
-    NOTHING = 0u,
-    DOWNWARD,
-    UPWARD,
-}Proximity_t;
-
 class ProximityEngine {
 private:
-    Proximity_t detection;
+    Indicator_Position_t indicator_pos;
 
 public:
     ProximityEngine();
     void Init_ProximityEngine(void);
+    void Start_ProximityEngine(void);
 };
 #endif
