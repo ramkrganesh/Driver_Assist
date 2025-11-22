@@ -6,8 +6,11 @@
 
 #include "Arduino.h"
 
-#define E_OK 0u
-#define E_NOT_OK 1u
+#define E_OK        0u
+#define E_NOT_OK    1u
+
+#define STD_OFF     0u
+#define STD_ON      1u
  
 typedef byte uint8;
 typedef unsigned int uint16;

@@ -18,8 +18,8 @@ ProximityEngine::ProximityEngine()
  *          start the proximity detection.
  */
 void ProximityEngine::Init_ProximityEngine(void){
+    delay(6);   // Wait for atleast 6ms for POR to Initialization of 9960
     Wire.begin();
-    Wire.setWireTimeout();
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_ENABLE);                 // (1)
     Wire.write(CFG_9960_PIEN_EN | CFG_9960_PON_EN);
@@ -46,6 +46,7 @@ void ProximityEngine::Init_ProximityEngine(void){
     Wire.write(CFG_9960_PCMP | CFG_9960_SAI);
     
     Wire.endTransmission();
+    Wire.end();
 }
 
 
@@ -54,9 +55,10 @@ void ProximityEngine::Init_ProximityEngine(void){
  */
 void ProximityEngine::Start_ProximityEngine(void){
     Wire.begin();
-    Wire.setWireTimeout();
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_ENABLE);
     Wire.write(CFG_9960_PIEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
     Wire.endTransmission();
+    Wire.end();
+    delay(7); // wait atleast 7ms to EXIT SLEEP
 }
