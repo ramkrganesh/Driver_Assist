@@ -1,5 +1,5 @@
-#ifndef _DRIVER_ASSIST_H_
-#define _DRIVER_ASSIST_H_
+#ifndef _GLOBAL_CFG_H_
+#define _GLOBAL_CFG_H_
 
 /**
  * MACROS
@@ -64,4 +64,52 @@
  */
 #define CFG_9960_PPULSE     (0x07u)
 
+/**
+ * @brief : LED Drive Strength.
+ * 0x00 : 100mA
+ * 0x40 : 50mA
+ */
+#define CFG_9960_LDRIVE     (0x00u)
+
+/**
+ * @brief : Proximity Gain Control.
+ * 0x00 : 1x
+ * 0x04 : 2x
+ * 0x08 : 4x
+ * 0x0C : 8x
+ */
+#define CFG_9960_PGAIN      (0x00u)
+
+/**
+ * @brief : Proximity Saturation Interrupt Enable.
+ * 0x00 : Disabled
+ * 0x80 : Enabled
+ */
+#define CFG_9960_PSIEN      (0x00u)
+
+/**
+ * @brief : Additional LDR current during proximity detection
+ * 0x00 : 100%
+ * 0x10 : 150%
+ * 0x20 : 200%
+ * 0x30 : 300%
+ */
+#define CFG_9960_LEDBOOST   (0x00u)
+
+/**
+ * @brief : Proximity Gain Compensation Enable (when one LED pair is disabled)
+ * 0x00 : Disabled
+ * 0x20 : Enabled
+ */
+#define CFG_9960_PCMP       (0x00u)
+
+/**
+ * @brief : Sleep After Interrupt.When enabled, the device will automatically 
+ * enter low power mode when the INT pin is asserted and the state machine
+ * has progressed to the SAI decision block.
+ * Normal operation is resumed when INT pin is cleared over I2C.
+ * 0x00 : SAI disabled
+ * 0x10 : SAI enabled
+ */
+#define CFG_9960_SAI        (0x10u)
 #endif
