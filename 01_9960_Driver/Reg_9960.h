@@ -10,5 +10,5 @@
 #define REG_9960_CONFIG2 (0x90u)
 #define REG_9960_CONFIG3 (0x9Fu)
 #define REG_9960_PDATA   (0x9Cu)
-
+#define REG_9960_PICLEAR (0xE5u)
 #endif

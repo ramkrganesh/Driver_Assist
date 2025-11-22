@@ -62,3 +62,38 @@ void ProximityEngine::Start_ProximityEngine(void){
     Wire.end();
     delay(7); // wait atleast 7ms to EXIT SLEEP
 }
+
+/**
+ * @brief : This function returns the position of Indicator.
+ * The PDATA register of 9960 is read and the value is checked to find the
+ * position of indicator stalk.
+ * This function also clears the Interrupt flag. (PICLEAR)
+ */
+Indicator_Position_t ProximityEngine::Get_IndicatorPosition(void) {
+    Indicator_Position_t position {DIRECTION_DEFAULT};
+    uint8 proximity_reading {};
+
+    Wire.begin();
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PDATA);
+    Wire.endTransmission();
+
+    Wire.requestFrom((uint8)CFG_9960_I2C_ADDR, 1);
+    if(Wire.available()) {
+        proximity_reading = Wire.read();
+    }
+
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PDATA);
+    Wire.write((uint8)0x00);    // Any value can be written to clear the interrupt
+    Wire.endTransmission();
+    Wire.end();
+
+    if (proximity_reading < CFG_9960_PILT) {
+        position = DIRECTION_LEFT;
+    }
+    else if (proximity_reading > CFG_9960_PIHT){
+        position = DIRECTION_RIGHT;
+    }
+    return position;
+}

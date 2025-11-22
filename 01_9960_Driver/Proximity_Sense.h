@@ -27,5 +27,6 @@ public:
     ProximityEngine();
     void Init_ProximityEngine(void);
     void Start_ProximityEngine(void);
+    Indicator_Position_t Get_IndicatorPosition(void);
 };
 #endif

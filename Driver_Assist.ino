@@ -22,5 +22,17 @@
 
 void loop(void) {
     if(LOW == digitalRead(CFG_NANO_HWPIN_9960INT)) {
+        Indicator_Position_t stalk_position = IndicatorProximity.Get_IndicatorPosition();
+        #if DEBUG_MODE
+        if (DIRECTION_LEFT == stalk_position) {
+            Serial.println("Stalk Position: LEFT");
+        }
+        else if (DIRECTION_RIGHT == stalk_position) {
+            Serial.println("Stalk Position: RIGHT");
+        }
+        else {
+            Serial.println("Stalk Position: UNKNOWN");
+        }
+        #endif
     }
 }
