@@ -36,6 +36,30 @@
 #define CFG_9960_PIEN_DIS   (0X00u)
 
 /**
+ * @brief : Wait Enable
+ * 0x08 : Wait enabled
+ * 0x00 : Wait disabled
+ */
+#define CFG_9960_WEN_EN     (0x08u)
+#define CFG_9960_WEN_DIS    (0x00u)
+
+/**
+ * @brief : Wait time between 2 proximity detection
+ * 255  = 1 * 2.78ms    = 2.78ms
+ * 127  = 127 * 2.78ms  = 353.06ms
+ * 0    = 256 * 2.78    = 712ms
+ */
+#define CFG_9960_WTIME      (254u)
+
+/**
+ * @brief : Wail Longer register.
+ * Wait time will be multiplied by 12
+ * 0x60 : WLONG disabled
+ * 0x62 : WLONG enabled
+ */
+#define CFG_9960_WLONG      (0x60u)
+
+/**
  * @brief : Proximity low threshold
  */
 #define CFG_9960_PILT       (0x64u)

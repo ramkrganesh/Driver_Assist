@@ -18,49 +18,72 @@ ProximityEngine::ProximityEngine()
  *          start the proximity detection.
  */
 void ProximityEngine::Init_ProximityEngine(void){
-    delay(6);   // Wait for atleast 6ms for POR to Initialization of 9960
     Wire.begin();
+
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_ENABLE);                 // (1)
-    Wire.write(CFG_9960_PIEN_EN | CFG_9960_PON_EN);
-
-    Wire.write(REG_9960_PILT);                   // (2)
+    Wire.write(REG_9960_PILT);                   // (3)
     Wire.write(CFG_9960_PILT);
-
-    Wire.write(REG_9960_PIHT);                   // (3)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PIHT);                   // (4)
     Wire.write(CFG_9960_PIHT);
-
-    Wire.write(REG_9960_PERS);                   // (4)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PERS);                   // (5)
     Wire.write(CFG_9960_PPERS);
-
-    Wire.write(REG_9960_PPULSE);                 // (5)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PPULSE);                 // (6)
     Wire.write(CFG_9960_PPLEN | CFG_9960_PPULSE);
-
-    Wire.write(REG_9960_CONTROL);                 // (6)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_CONTROL);                 // (7)
     Wire.write(CFG_9960_LDRIVE | CFG_9960_PGAIN);
-
-    Wire.write(REG_9960_CONFIG2);                 // (7)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_CONFIG2);                 // (8)
     Wire.write(CFG_9960_PSIEN | CFG_9960_LEDBOOST);
-
-    Wire.write(REG_9960_CONFIG3);                 // (8)
+    Wire.endTransmission();
+    delay(1);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_CONFIG3);                 // (9)
     Wire.write(CFG_9960_PCMP | CFG_9960_SAI);
-    
     Wire.endTransmission();
     Wire.end();
 }
 
 
 /**
- * @brief : This function "starts" proximity detection engine in APDS9960
+ * @brief : This function activates the internal oscillator
+ * and forces the state machine to exit SLEEP (after POR)
  */
-void ProximityEngine::Start_ProximityEngine(void){
+void ProximityEngine::Activate_APDS9960(void){
+    delay(6);   // allow the APDS to enter sleep after POR
     Wire.begin();
+
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_WTIME);
+    Wire.write(CFG_9960_WTIME);
+    Wire.endTransmission();
+
+    delay(2);
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_CONFIG1);
+    Wire.write(CFG_9960_WLONG);
+    Wire.endTransmission();
+
+    delay(2);
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_ENABLE);
-    Wire.write(CFG_9960_PIEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
+    Wire.write(CFG_9960_PIEN_EN | CFG_9960_WEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
     Wire.endTransmission();
     Wire.end();
-    delay(7); // wait atleast 7ms to EXIT SLEEP
+    delay(7);
 }
 
 /**
@@ -74,19 +97,20 @@ Indicator_Position_t ProximityEngine::Get_IndicatorPosition(void) {
     uint8 proximity_reading {};
 
     Wire.begin();
+    /* Clear Interrupt */
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(REG_9960_PICLEAR);
+    Wire.write((uint8)0x01);    // Any value can be written to clear the interrupt
+    Wire.endTransmission();
+
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_PDATA);
     Wire.endTransmission();
 
-    Wire.requestFrom((uint8)CFG_9960_I2C_ADDR, 1);
+    Wire.requestFrom(CFG_9960_I2C_ADDR, 1);
     if(Wire.available()) {
         proximity_reading = Wire.read();
     }
-
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_PDATA);
-    Wire.write((uint8)0x00);    // Any value can be written to clear the interrupt
-    Wire.endTransmission();
     Wire.end();
 
     if (proximity_reading < CFG_9960_PILT) {
