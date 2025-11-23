@@ -17,7 +17,6 @@ void setup(void) {
 #endif
     pinMode(CFG_NANO_HWPIN_9960INT, INPUT_PULLUP);
     IndicatorProximity.Activate_APDS9960();
-    IndicatorProximity.Init_ProximityEngine();
 }
 
 void loop(void) {

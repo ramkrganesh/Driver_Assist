@@ -25,7 +25,6 @@ private:
 
 public:
     ProximityEngine();
-    void Init_ProximityEngine(void);
     void Activate_APDS9960(void);
     Indicator_Position_t Get_IndicatorPosition(void);
 };

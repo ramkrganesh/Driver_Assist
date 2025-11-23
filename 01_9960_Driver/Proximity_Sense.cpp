@@ -13,11 +13,12 @@ ProximityEngine::ProximityEngine()
 
 
 /**
- * @brief : Initialization member function. This function only initializes the
- *          Proximity-Engine of APDS9960. This function does NOT automatically
- *          start the proximity detection.
+ * @brief : This function activates proximity engine in APDS9960.
+ * After activation, the proximity measurement will be made by the proximity
+ * engine every 5.56ms (depends on CFG_9960_WTIME)
  */
-void ProximityEngine::Init_ProximityEngine(void){
+void ProximityEngine::Activate_APDS9960(void){
+    delay(6);   // allow the APDS to enter sleep after POR
     Wire.begin();
 
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
@@ -54,30 +55,17 @@ void ProximityEngine::Init_ProximityEngine(void){
     Wire.write(REG_9960_CONFIG3);                 // (9)
     Wire.write(CFG_9960_PCMP | CFG_9960_SAI);
     Wire.endTransmission();
-    Wire.end();
-}
-
-
-/**
- * @brief : This function activates the internal oscillator
- * and forces the state machine to exit SLEEP (after POR)
- */
-void ProximityEngine::Activate_APDS9960(void){
-    delay(6);   // allow the APDS to enter sleep after POR
-    Wire.begin();
-
+    delay(1);
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_WTIME);
     Wire.write(CFG_9960_WTIME);
     Wire.endTransmission();
-
-    delay(2);
+    delay(1);
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_CONFIG1);
     Wire.write(CFG_9960_WLONG);
     Wire.endTransmission();
-
-    delay(2);
+    delay(1);
     Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
     Wire.write(REG_9960_ENABLE);
     Wire.write(CFG_9960_PIEN_EN | CFG_9960_WEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
