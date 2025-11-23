@@ -20,6 +20,7 @@ typedef enum {
  * @brief: Handles the "proximity engine" in APDS-9960 module.
  */
 class ProximityEngine {
+    friend void Send_Cmd_9960(const uint8, const uint8);
 private:
     Indicator_Position_t indicator_pos;
 

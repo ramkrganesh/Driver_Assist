@@ -4,6 +4,20 @@
 
 
 /**
+ * @brief Friend function to ProximityEngine.
+ * This is a helper function to send I2C command to APDS9960
+ */
+void Send_Cmd_9960(const uint8 reg, const uint8 val) {
+    Wire.begin();
+    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
+    Wire.write(reg);
+    Wire.write(val);
+    Wire.endTransmission();
+    Wire.end();
+    delay(1);
+}
+
+/**
  * @brief Class Constructor
  */
 ProximityEngine::ProximityEngine()
@@ -18,61 +32,22 @@ ProximityEngine::ProximityEngine()
  * engine every 5.56ms (depends on CFG_9960_WTIME)
  */
 void ProximityEngine::Activate_APDS9960(void){
-    delay(6);   // allow the APDS to enter sleep after POR
-    Wire.begin();
+    delay(6);   // allow APDS to enter sleep after POR.
 
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_PILT);                   // (3)
-    Wire.write(CFG_9960_PILT);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_PIHT);                   // (4)
-    Wire.write(CFG_9960_PIHT);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_PERS);                   // (5)
-    Wire.write(CFG_9960_PPERS);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_PPULSE);                 // (6)
-    Wire.write(CFG_9960_PPLEN | CFG_9960_PPULSE);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_CONTROL);                 // (7)
-    Wire.write(CFG_9960_LDRIVE | CFG_9960_PGAIN);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_CONFIG2);                 // (8)
-    Wire.write(CFG_9960_PSIEN | CFG_9960_LEDBOOST);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_CONFIG3);                 // (9)
-    Wire.write(CFG_9960_PCMP | CFG_9960_SAI);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_WTIME);
-    Wire.write(CFG_9960_WTIME);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_CONFIG1);
-    Wire.write(CFG_9960_WLONG);
-    Wire.endTransmission();
-    delay(1);
-    Wire.beginTransmission((uint8)CFG_9960_I2C_ADDR);
-    Wire.write(REG_9960_ENABLE);
-    Wire.write(CFG_9960_PIEN_EN | CFG_9960_WEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
-    Wire.endTransmission();
-    Wire.end();
-    delay(7);
+    Send_Cmd_9960(REG_9960_PILT, CFG_9960_PILT);
+    Send_Cmd_9960(REG_9960_PIHT, CFG_9960_PIHT);
+    Send_Cmd_9960(REG_9960_PERS, CFG_9960_PPERS);
+    Send_Cmd_9960(REG_9960_PPULSE, CFG_9960_PPLEN | CFG_9960_PPULSE);
+    Send_Cmd_9960(REG_9960_CONTROL, CFG_9960_LDRIVE | CFG_9960_PGAIN);
+    Send_Cmd_9960(REG_9960_CONFIG2, CFG_9960_PSIEN | CFG_9960_LEDBOOST);
+    Send_Cmd_9960(REG_9960_CONFIG3, CFG_9960_PCMP | CFG_9960_SAI);
+    Send_Cmd_9960(REG_9960_WTIME, CFG_9960_WTIME);
+    Send_Cmd_9960(REG_9960_CONFIG1, CFG_9960_WLONG);
+    Send_Cmd_9960(REG_9960_ENABLE, CFG_9960_PIEN_EN | CFG_9960_WEN_EN | CFG_9960_PEN_EN | CFG_9960_PON_EN);
+
+    delay(7);   // allow APDS to exit sleep after enabling proximity engine.
 }
+
 
 /**
  * @brief : This function returns the position of Indicator.
