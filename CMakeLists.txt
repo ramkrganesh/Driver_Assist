@@ -11,11 +11,12 @@ add_custom_target(Build_Driver_Assist ALL
     --fqbn ${ARDUINO_FQBN}
     --library "00_CommonLib"
     --library "01_9960_Driver"
-    --library "01_custom_wire"
+    --library "02_DFPlayer_Driver"
     ${CMAKE_SOURCE_DIR}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Building Driver Assist Project..."
 )
 
 add_custom_target(Flash_Sw ALL 
-    COMMAND arduino-cli upload -p /dev/ttyUSB0 --fqbn ${ARDUINO_FQBN} ${CMAKE_SOURCE_DIR})
+    COMMAND arduino-cli upload -p /dev/ttyUSB0 --fqbn ${ARDUINO_FQBN} ${CMAKE_SOURCE_DIR}
+)

@@ -1,6 +1,7 @@
+#include <Arduino.h>
 #include "Driver_Assist.h"
 #include "Proximity_Sense.h"
-#include <Arduino.h>
+#include "DFPlayer.h"
 
 #define DEBUG_MODE  STD_ON
 
@@ -8,6 +9,7 @@
  * Global Variables
  */
 static ProximityEngine IndicatorProximity;
+static DFPlayer DFPlayerModule;
 
 void setup(void) {
 #if DEBUG_MODE

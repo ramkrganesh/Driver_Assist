@@ -4,8 +4,17 @@
 /**
  * MACROS
  */
+/**
+ * @brief : Tx "Software Serial" pin at Arduino to communicate with DFPlayer
+ */
+#define CFG_NANO_HWPIN_DFP_TX   (11u)
 
- /**
+/**
+ * @brief : Rx "Software Serial" pin at Arduino to communicate with DFPlayer
+ */
+#define CFG_NANO_HWPIN_DFP_RX   (10u)
+
+/**
   * @brief : The pin D2 will be used to detect INT signal from APDS9960.
   *          The pin will be configured as Input.
   */
