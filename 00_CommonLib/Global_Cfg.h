@@ -15,6 +15,11 @@
 #define CFG_NANO_HWPIN_DFP_RX   (10u)
 
 /**
+ * @brief : Input pin to get DFPlayer's "Busy" pin status
+ */
+#define CFG_NANO_HWPIN_DFP_BUSY (9u)
+
+/**
   * @brief : The pin D2 will be used to detect INT signal from APDS9960.
   *          The pin will be configured as Input.
   */

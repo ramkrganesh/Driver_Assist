@@ -12,13 +12,22 @@ static ProximityEngine IndicatorProximity;
 static DFPlayer DFPlayerModule;
 
 void setup(void) {
+    delay(3000);    // allow DFPlayer to initialize
 #if DEBUG_MODE
     Serial.begin(9600);
     Serial.flush();
     Serial.println("Starting Debug Mode...");
 #endif
+
+    /* 9960 pins */
     pinMode(CFG_NANO_HWPIN_9960INT, INPUT_PULLUP);
     IndicatorProximity.Activate_APDS9960();
+    
+    /* DFPlayer pins */
+    pinMode(CFG_NANO_HWPIN_DFP_RX, INPUT);
+    pinMode(CFG_NANO_HWPIN_DFP_TX, OUTPUT);
+    pinMode(CFG_NANO_HWPIN_DFP_BUSY, INPUT);
+    DFPlayerModule.init();
 }
 
 void loop(void) {
@@ -42,4 +51,5 @@ void loop(void) {
         Serial.println("Stalk Position: UNKNOWN");
         #endif
     }
+    delay(200);
 }
