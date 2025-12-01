@@ -42,6 +42,7 @@ void DFPlayer::init(void) {
     DFPSerial.begin(9600);
     sendCmd(VOL, INIT_VOLUME);
     sendCmd(TRACK, TRACK_INIT);
+    delay(4000);    // wait for track to finish
 }
 
 void DFPlayer::setVolume(uint8 volLevel) {
@@ -50,6 +51,9 @@ void DFPlayer::setVolume(uint8 volLevel) {
 
 void DFPlayer::playTrack(uint8 track) {
     sendCmd(TRACK, track);
+    while(getStatus() == DFPLAYER_BUSY) {
+        delay(100);
+    }
 }
 
 DFPStatusType DFPlayer::getStatus(void) {

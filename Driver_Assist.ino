@@ -34,22 +34,34 @@ void loop(void) {
 
     if(LOW == digitalRead(CFG_NANO_HWPIN_9960INT)) {
         Indicator_Position_t stalk_position = IndicatorProximity.Get_IndicatorPosition();
-        #if DEBUG_MODE
-        if (DIRECTION_LEFT == stalk_position) {
+        if (DIRECTION_LEFT == stalk_position)
+        {
+#if DEBUG_MODE
             Serial.println("Stalk Position: LEFT"); //LEFT
+#endif
+            DFPlayerModule.playTrack(TRACK_LEFT_ONCOMING);
         }
-        else if (DIRECTION_RIGHT == stalk_position) {
-            Serial.println("Stalk Position: RIGHT"); // 
+        else if (DIRECTION_RIGHT == stalk_position)
+        {
+#if DEBUG_MODE
+            Serial.println("Stalk Position: RIGHT");
+#endif
+            DFPlayerModule.playTrack(TRACK_RIGHT);
         }
-        else {
-            Serial.println("Stalk Position: UNKNOWN");
+        else
+        {
+            // Ideally, This code will never be reached.
+#if DEBUG_MODE
+            Serial.println("Stalk Position: UNKNOWN 1");
+#endif
         }
-        #endif
+
     }
-    else {
-        #if DEBUG_MODE
-        Serial.println("Stalk Position: UNKNOWN");
-        #endif
+    else
+    {
+#if DEBUG_MODE
+        Serial.println("Stalk Position: UNKNOWN 2");
+#endif
     }
-    delay(200);
+    delay(100);
 }
