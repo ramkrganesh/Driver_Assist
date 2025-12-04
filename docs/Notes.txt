@@ -3,3 +3,5 @@ Delays:
 INIT Track  = less than 4 sec.
 RIGHT Track = 4 sec.
 LEFT Track  = 6 sec.
+
+better to keep CFG_9960_LDRIVE as 12.5 or 25mA
