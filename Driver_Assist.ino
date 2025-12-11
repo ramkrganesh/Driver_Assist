@@ -3,7 +3,7 @@
 #include "Proximity_Sense.h"
 #include "DFPlayer.h"
 
-#define DEBUG_MODE  STD_ON
+#define DEBUG_MODE  STD_OFF
 
 /**
  * Global Variables
