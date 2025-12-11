@@ -12,6 +12,7 @@ add_custom_target(Build_Driver_Assist ALL
     --library "00_CommonLib"
     --library "01_9960_Driver"
     --library "02_DFPlayer_Driver"
+    --library "03_Neo6M_Driver"
     ${CMAKE_SOURCE_DIR}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Building Driver Assist Project..."

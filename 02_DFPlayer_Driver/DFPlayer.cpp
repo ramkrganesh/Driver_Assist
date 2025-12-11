@@ -38,11 +38,21 @@ DFPlayer::DFPlayer()
     // Do Nothing
 }
 
+/**
+ * @brief This function waits for the current track to finish
+ */
+void DFPlayer::waitTrackFinish(void) {
+    delay(1000);    // wait for track to start
+    while(getStatus()){
+        ; // wait for the track to end
+    }
+}
+
 void DFPlayer::init(void) {
     DFPSerial.begin(9600);
     sendCmd(VOL, INIT_VOLUME);
     sendCmd(TRACK, TRACK_INIT);
-    delay(4000);    // wait for track to finish
+    waitTrackFinish();
 }
 
 void DFPlayer::setVolume(uint8 volLevel) {
@@ -50,10 +60,13 @@ void DFPlayer::setVolume(uint8 volLevel) {
 }
 
 void DFPlayer::playTrack(uint8 track) {
-    sendCmd(TRACK, track);
-    while(getStatus() == DFPLAYER_BUSY) {
-        delay(100);
+
+    if(track >= TRACK_MAX)
+    {
+        track = TRACK_INIT;
     }
+    sendCmd(TRACK, track);
+    waitTrackFinish();
 }
 
 DFPStatusType DFPlayer::getStatus(void) {

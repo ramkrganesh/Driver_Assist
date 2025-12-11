@@ -2,6 +2,7 @@
 #include "Driver_Assist.h"
 #include "Proximity_Sense.h"
 #include "DFPlayer.h"
+#include "Gps_Neo6m.h"
 
 #define DEBUG_MODE  STD_OFF
 
@@ -10,6 +11,7 @@
  */
 static ProximityEngine IndicatorProximity;
 static DFPlayer DFPlayerModule;
+static GpsModule GpsData;
 
 void setup(void) {
     delay(3000);    // allow DFPlayer to initialize
@@ -28,9 +30,21 @@ void setup(void) {
     pinMode(CFG_NANO_HWPIN_DFP_TX, OUTPUT);
     pinMode(CFG_NANO_HWPIN_DFP_BUSY, INPUT);
     DFPlayerModule.init();
+#if DEBUG_MODE == STD_OFF
+    GpsData.connectGpsmodule();
+#endif
 }
 
 void loop(void) {
+    double speed = GpsData.getSpeed();
+    if(speed > 60)
+    {
+        return;
+    }
+    else if (speed < 35 && speed > 10)
+    {
+        DFPlayerModule.playTrack(TRACK_RIGHT_BEFORE_LEFT); // for now DFPlayer does nothing here.
+    }
 
     if(LOW == digitalRead(CFG_NANO_HWPIN_9960INT)) {
         Indicator_Position_t stalk_position = IndicatorProximity.Get_IndicatorPosition();

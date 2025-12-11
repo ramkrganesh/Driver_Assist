@@ -9,8 +9,8 @@ void GpsModule::connectGpsmodule(void){
     Serial.begin(9600);
 }
 
-double getSpeed(void) {
-    while(Serial.available > 0)
+double GpsModule::getSpeed(void) {
+    while(Serial.available() > 0)
     {
         gps_data.encode(Serial.read());
     }

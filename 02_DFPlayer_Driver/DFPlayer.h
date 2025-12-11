@@ -5,10 +5,16 @@
 #include "Global_Cfg.h"
 
 #define INIT_VOLUME         (0x0Fu) // Set as 15. Max possible volume 30.
-#define TRACK_INIT          (0x01)
-#define TRACK_LEFT_ONCOMING (0x02)
-#define TRACK_RIGHT         (0x03)
-#define TRACK_LANE          (0x04)  // unused at the moment.
+
+enum {
+    TRACK_INIT=1,
+    TRACK_LEFT_ONCOMING,
+    TRACK_RIGHT,
+    TRACK_LANE,// unused at the moment.
+    TRACK_MAX,
+    TRACK_RIGHT_BEFORE_LEFT
+};
+
 
 typedef enum {
     DFPLAYER_IDLE,
@@ -31,6 +37,7 @@ public:
     void playTrack(byte);
     DFPStatusType getStatus(void);
     void init(void);
+    void waitTrackFinish(void);
 
     DFPlayer();
 };
