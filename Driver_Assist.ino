@@ -12,6 +12,7 @@
 static ProximityEngine IndicatorProximity;
 static DFPlayer DFPlayerModule;
 static GpsModule GpsData;
+static bool WarnRightBeforeLeft = false;
 
 void setup(void) {
     delay(3000);    // allow DFPlayer to initialize
@@ -41,9 +42,15 @@ void loop(void) {
     {
         return;
     }
-    else if (speed < 35 && speed > 10)
+    else if (speed < 35 && speed > 10
+            && WarnRightBeforeLeft == false)
     {
-        DFPlayerModule.playTrack(TRACK_RIGHT_BEFORE_LEFT); // for now DFPlayer does nothing here.
+        DFPlayerModule.playTrack(TRACK_RIGHT_BEFORE_LEFT);
+        WarnRightBeforeLeft = true;
+    }
+    else if (speed > 35)
+    {
+        WarnRightBeforeLeft = false;
     }
 
     if(LOW == digitalRead(CFG_NANO_HWPIN_9960INT)) {

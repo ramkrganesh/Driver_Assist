@@ -10,9 +10,8 @@ enum {
     TRACK_INIT=1,
     TRACK_LEFT_ONCOMING,
     TRACK_RIGHT,
-    TRACK_LANE,// unused at the moment.
-    TRACK_MAX,
-    TRACK_RIGHT_BEFORE_LEFT
+    TRACK_RIGHT_BEFORE_LEFT,
+    TRACK_MAX
 };
 
 
