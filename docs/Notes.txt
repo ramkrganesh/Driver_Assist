@@ -5,3 +5,33 @@ RIGHT Track = 4 sec.
 LEFT Track  = 6 sec.
 
 better to keep CFG_9960_LDRIVE as 12.5 or 25mA
+
+Pin Mappings:
+-------
+APDS
+-------
+INT - D2
+SCL - A5
+SDA - A4
+VCC - 5V
+VL - Connect to 3V3
+GND
+
+--------------
+DFPlayer Mini
+--------------
+Rx - D11
+Tx - D10
+BUSY - D9
+VCC
+GND
+SPK 1
+SPK 2
+
+-----------
+GPS Module
+-----------
+Tx - D0
+Rx - D1
+VCC
+GND
