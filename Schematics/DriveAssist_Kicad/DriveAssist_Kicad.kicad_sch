@@ -2597,6 +2597,12 @@
 		(uuid "889db26e-5ea6-4f4c-8147-42f8467d9e2a")
 	)
 	(junction
+		(at 130.81 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8eb02e88-0236-4775-8f53-72142a7c243c")
+	)
+	(junction
 		(at 123.19 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2709,6 +2715,10 @@
 		(uuid "86233304-71e3-4b35-bac3-0e00c16005f7")
 	)
 	(no_connect
+		(at 130.81 49.53)
+		(uuid "8f805d49-bab6-41b6-9440-a9d5727c2f54")
+	)
+	(no_connect
 		(at 173.99 92.71)
 		(uuid "984c8d49-4837-46e2-b34e-0404346ae5ea")
 	)
@@ -2739,6 +2749,10 @@
 	(no_connect
 		(at 158.75 102.87)
 		(uuid "ce7aec7c-6779-494f-92e6-ca33e032ca97")
+	)
+	(no_connect
+		(at 123.19 118.11)
+		(uuid "d02d7c78-9649-4de7-b851-7197b1ead133")
 	)
 	(no_connect
 		(at 63.5 102.87)
@@ -2774,7 +2788,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 57.15) (xy 151.13 57.15)
+			(xy 125.73 57.15) (xy 130.81 57.15)
 		)
 		(stroke
 			(width 0)
@@ -3114,6 +3128,16 @@
 	)
 	(wire
 		(pts
+			(xy 130.81 54.61) (xy 130.81 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7346b382-0520-46e5-87fc-9b9083b051e9")
+	)
+	(wire
+		(pts
 			(xy 125.73 67.31) (xy 123.19 67.31)
 		)
 		(stroke
@@ -3364,6 +3388,16 @@
 	)
 	(wire
 		(pts
+			(xy 130.81 57.15) (xy 151.13 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d14f7e16-f05c-4b99-9f60-13e38fe1a251")
+	)
+	(wire
+		(pts
 			(xy 119.38 87.63) (xy 119.38 95.25)
 		)
 		(stroke
@@ -3577,7 +3611,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x01_Socket")
-		(at 135.89 53.34 0)
+		(at 130.81 49.53 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3586,25 +3620,25 @@
 		(fields_autoplaced yes)
 		(uuid "2c963270-e965-4960-af60-7e8cedce61ac")
 		(property "Reference" "J8"
-			(at 137.16 52.0699 0)
+			(at 132.08 48.8949 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "Conn_01x01_Socket"
-			(at 137.16 54.6099 0)
+		(property "Value" "5V PWR"
+			(at 132.08 51.4349 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Footprint" ""
-			(at 135.89 53.34 0)
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical"
+			(at 130.81 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3613,7 +3647,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 135.89 53.34 0)
+			(at 130.81 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3622,7 +3656,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x01, script generated"
-			(at 135.89 53.34 0)
+			(at 130.81 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4890,7 +4924,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical"
 			(at 123.19 118.11 0)
 			(effects
 				(font
