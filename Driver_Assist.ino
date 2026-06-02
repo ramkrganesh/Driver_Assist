@@ -4,85 +4,94 @@
 #include "DFPlayer.h"
 #include "Gps_Neo6m.h"
 
-#define DEBUG_MODE  STD_OFF
+#define DEBUG_MODE false
+static const double SPEED_MAX_KMH = 60.0;
+static const double SPEED_WARN_LOWER_KMH = 10.0;
+static const double SPEED_WARN_UPPER_KMH = 35.0;
+static const unsigned long STARTUP_DELAY_MS = 3000ul;
+static const unsigned long LOOP_DELAY_MS = 100ul;
 
-/**
- * Global Variables
- */
 static ProximityEngine IndicatorProximity;
 static DFPlayer DFPlayerModule;
 static GpsModule GpsData;
-static bool WarnRightBeforeLeft = false;
+static bool warnRightBeforeLeftPlayed = false;
+
+static void initHardware();
+static void processSpeedWarnings(double speed);
+static void processIndicator();
 
 void setup(void) {
-    delay(3000);    // allow DFPlayer to initialize
-#if DEBUG_MODE
-    Serial.begin(9600);
-    Serial.flush();
-    Serial.println("Starting Debug Mode...");
-#endif
+    delay(STARTUP_DELAY_MS); // allow DFPlayer to initialize
 
-    /* 9960 pins */
-    pinMode(CFG_NANO_HWPIN_9960INT, INPUT_PULLUP);
-    IndicatorProximity.Activate_APDS9960();
-    
-    /* DFPlayer pins */
-    pinMode(CFG_NANO_HWPIN_DFP_RX, INPUT);
-    pinMode(CFG_NANO_HWPIN_DFP_TX, OUTPUT);
-    pinMode(CFG_NANO_HWPIN_DFP_BUSY, INPUT);
-    DFPlayerModule.init();
-#if DEBUG_MODE == STD_OFF
-    GpsData.connectGpsmodule();
-#endif
+    if (DEBUG_MODE) {
+        Serial.begin(9600);
+        Serial.flush();
+        Serial.println(F("Starting Debug Mode..."));
+    }
+
+    initHardware();
 }
 
 void loop(void) {
     double speed = GpsData.getSpeed();
-    if(speed > 60)
-    {
+    processSpeedWarnings(speed);
+    processIndicator();
+
+    delay(LOOP_DELAY_MS);
+}
+
+static void initHardware() {
+    pinMode(CFG_NANO_HWPIN_9960INT, INPUT_PULLUP);
+    IndicatorProximity.Activate_APDS9960();
+
+    pinMode(CFG_NANO_HWPIN_DFP_RX, INPUT);
+    pinMode(CFG_NANO_HWPIN_DFP_TX, OUTPUT);
+    pinMode(CFG_NANO_HWPIN_DFP_BUSY, INPUT);
+    DFPlayerModule.init();
+
+    if (DEBUG_MODE == false) {
+        GpsData.connectGpsmodule();
+    }
+}
+
+static void processSpeedWarnings(double speed) {
+    if (speed > SPEED_MAX_KMH) {
         return;
     }
-    else if (speed < 35 && speed > 10
-            && WarnRightBeforeLeft == false)
-    {
-        DFPlayerModule.playTrack(TRACK_RIGHT_BEFORE_LEFT);
-        WarnRightBeforeLeft = true;
+
+    if (speed > SPEED_WARN_LOWER_KMH && speed < SPEED_WARN_UPPER_KMH) {
+        if (!warnRightBeforeLeftPlayed) {
+            DFPlayerModule.playTrack(TRACK_RIGHT_BEFORE_LEFT);
+            warnRightBeforeLeftPlayed = true;
+        }
+    } else if (speed > SPEED_WARN_UPPER_KMH) {
+        warnRightBeforeLeftPlayed = false;
     }
-    else if (speed > 35)
-    {
-        WarnRightBeforeLeft = false;
+}
+
+static void processIndicator() {
+    if (digitalRead(CFG_NANO_HWPIN_9960INT) != LOW) {
+#if DEBUG_MODE
+        Serial.println(F("Stalk Position: UNKNOWN"));
+#endif
+        return;
     }
 
-    if(LOW == digitalRead(CFG_NANO_HWPIN_9960INT)) {
-        Indicator_Position_t stalk_position = IndicatorProximity.Get_IndicatorPosition();
-        if (DIRECTION_LEFT == stalk_position)
-        {
-#if DEBUG_MODE
-            Serial.println("Stalk Position: LEFT"); //LEFT
-#endif
-            DFPlayerModule.playTrack(TRACK_LEFT_ONCOMING);
-        }
-        else if (DIRECTION_RIGHT == stalk_position)
-        {
-#if DEBUG_MODE
-            Serial.println("Stalk Position: RIGHT");
-#endif
-            DFPlayerModule.playTrack(TRACK_RIGHT);
-        }
-        else
-        {
-            // Ideally, This code will never be reached.
-#if DEBUG_MODE
-            Serial.println("Stalk Position: UNKNOWN 1");
-#endif
-        }
+    const Indicator_Position_t stalk_position = IndicatorProximity.Get_IndicatorPosition();
 
-    }
-    else
-    {
+    if (stalk_position == DIRECTION_LEFT) {
 #if DEBUG_MODE
-        Serial.println("Stalk Position: UNKNOWN 2");
+        Serial.println(F("Stalk Position: LEFT"));
+#endif
+        DFPlayerModule.playTrack(TRACK_LEFT_ONCOMING);
+    } else if (stalk_position == DIRECTION_RIGHT) {
+#if DEBUG_MODE
+        Serial.println(F("Stalk Position: RIGHT"));
+#endif
+        DFPlayerModule.playTrack(TRACK_RIGHT);
+    } else {
+#if DEBUG_MODE
+        Serial.println(F("Stalk Position: UNKNOWN"));
 #endif
     }
-    delay(100);
 }
